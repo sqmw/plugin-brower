@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+
+  "name": "One-click Kittens",
+  "description": "This extension demonstrates a browser action with kittens.",
+  "version": "1.0",
+
+  //设置插件允许作用的域名
+  "permissions": [
+    "*//*/*"
+  ],
+  //点击浏览器的插件的图标之后就会执行弹出一个窗口
+  //对应的还有 page_action
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  //这些将会被插入到浏览器web里面
+  "content_scripts": [
+      {
+        "matches": ["*://*/*"],
+        "css": ["./index.css"],
+        "js": ["./index.js"]
+      }
+    ]
+}
