@@ -1,7 +1,24 @@
 body{
+	position: relative;
 	background-color: gray;
+	max-height: 300px;
+	min-width: 300px;
+	overflow-y: scroll;
 }
 
 #author{
 	background-color: aqua;
+}
+
+.btn-box{
+	top: 0;
+	position: absolute;
+	display: flex;
+	justify-content: space-around;
+}
+
+.block{
+	position: absolute;
+	top: 50px;
+	background-color: mediumpurple;
 }

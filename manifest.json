@@ -1,26 +1,41 @@
 {
-  "manifest_version": 2,
-
-  "name": "One-click Kittens",
-  "description": "This extension demonstrates a browser action with kittens.",
-  "version": "1.0",
-
-  //设置插件允许作用的域名
+  "manifest_version": 3,
+  "name": "plugin block",
+  "description": "@sq_子礼1951918362@qq.com",
+  "version": "2.0",
+  //set the domain name that the plugin allows
   "permissions": [
     "*//*/*"
   ],
-  //点击浏览器的插件的图标之后就会执行弹出一个窗口
-  //对应的还有 page_action
-  "browser_action": {
-    "default_icon": "icon.png",
+  //  Configure icons
+  "icons": {
+    "128": "icon.png"
+  },
+  "action": {
+    "default_icon": {
+      "128": "icon.png"
+    },
     "default_popup": "popup.html"
   },
-  //这些将会被插入到浏览器web里面
+  "permissions": [
+    "activeTab"
+  ],
   "content_scripts": [
-      {
-        "matches": ["*://*/*"],
-        "css": ["./index.css"],
-        "js": ["./index.js"]
-      }
-    ]
+    {
+      "matches": [
+        "https://*.bilibili.com/*"
+      ],
+      "js": [
+        "./background.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage"
+  ],
+  "extension_pages": "script-src 'self' 'nonce-random_string_here'; object-src 'self'",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'",
+    "default-src": "'none'"
+  }
 }
