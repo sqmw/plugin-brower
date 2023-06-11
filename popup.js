@@ -5,6 +5,12 @@ setTimeout(() => {
 
 let blockList = []
 
+function saveBlockList() {
+    chrome.storage.local.set({"blockList": JSON.stringify(blockList)}).then(() => {
+        console.log("local save right");
+    });
+}
+
 function getLiEle(val = "", blockIndex) {
     const lastChild = document.createElement("li");
     lastChild.setAttribute("class", "list-group-item");
@@ -15,8 +21,11 @@ function getLiEle(val = "", blockIndex) {
                   <button type="button" class="btn btn-danger">删除</button>
             </div>
         `
-    lastChild.querySelector("input").addEventListener("change",(event)=>{
-            blockList.splice(blockIndex,1, event.target.value)
+    lastChild.querySelector("input").addEventListener(
+        "change",
+        (event)=>{
+            blockList.splice(blockIndex,1, event.target.value);
+            saveBlockList();
         }
     )
 
@@ -50,9 +59,7 @@ window.onload = () => {
         blockList = blockList.filter((item, index, arr)=>{
            return item.trim() !== ""
         });
-        chrome.storage.local.set({"blockList": JSON.stringify(blockList)}).then(() => {
-            console.log("local save right");
-        });
+       saveBlockList()
     })
 
     document.getElementById("clear").addEventListener("click", () => {

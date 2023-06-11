@@ -15,7 +15,7 @@ function recurseToGetFather(ele) {
     }
 }
 
-const blockInfoList = ["德华"];
+let blockInfoList = [];
 
 // 这样就可以获取 popup.js 里面存储的localstorage的数据
 chrome.storage.local.get(["blockList"]).then((result) => {
@@ -45,6 +45,7 @@ function getMainEle() {
     return document.querySelector("main")??document.querySelector("div[class*='search-page-wrapper']");
 }
 function getNewFather() {
+    // 表示是第一次获取
     if (isFirstGetFather){
         isFirstGetFather = false;
         const father = recurseToGetFather(getMainEle())
@@ -54,16 +55,18 @@ function getNewFather() {
     }else{
         return document.querySelector(fatherInfo.tagName + "[class='"+ fatherInfo.className + "']")??
             document.querySelector("div[class='video-list row']")??
+            document.querySelector("div[class='mt_sm video-list row']")??
             recurseToGetFather(getMainEle())
     }
 }
 let fatherMain
 setInterval(()=>{
+    blockInfoList = Array.from(new Set(blockInfoList))
     // Determine whether the father was successfully obtained
     try{
         fatherMain = getNewFather();
         if(lastChildInfo.len === fatherMain.children.length){
-            if (lastChildInfo.lenSameCount < 100){
+            if (lastChildInfo.lenSameCount < 50){
                 lastChildInfo.lenSameCount ++;
             }else{
                 lastChildInfo.lenSameCount = 0
@@ -73,7 +76,6 @@ setInterval(()=>{
         }
         for (let i = 0; i < fatherMain?.children.length; i++) {
             if(checkStrIncludes(fatherMain.children.item(i).innerHTML, blockInfoList)){
-                console.log("remove")
                 fatherMain.children.item(i).remove()
             }
         }
